@@ -9,7 +9,7 @@ namespace Lesson5
     internal class Abonent
     {
         public int PhoneNumber{ get; }
-        public string Name { get; }
+        public string? Name { get; }
 
         public Abonent(string name, int phoneNumber)
         {
