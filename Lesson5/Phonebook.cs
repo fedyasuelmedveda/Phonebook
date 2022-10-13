@@ -18,6 +18,12 @@ namespace Lesson5
             abonents = new Abonent[30];
 
         }
+
+        /// <summary>
+        /// Проверка существования абонента с данным именем.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
         private bool CheckName(string name)
         {
             for(int i = 0; i < numberOfAbonents; i++)
@@ -42,6 +48,12 @@ namespace Lesson5
             return false;
         }
 
+        /// <summary>
+        /// Проверка существования абонента с данным именем и номером.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="phoneNumber"></param>
+        /// <returns></returns>
         private bool CheckNameAndNumber(string name, int phoneNumber)
         {
             for(int i = 0; i < numberOfAbonents; i++)
@@ -51,6 +63,12 @@ namespace Lesson5
             }
             return false;
         }
+
+        /// <summary>
+        /// Добавляем абонента, если такого ещё нет.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="phoneNumber"></param>
         public void AddAbonent(string name, int phoneNumber) 
         {
             if (!CheckName(name) && !CheckNumber(phoneNumber))
@@ -62,12 +80,23 @@ namespace Lesson5
 
         }
 
+        /// <summary>
+        /// Добавляем абонента, если такого ещё нет.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="phoneNumber"></param>
         public void AddAbonent(Abonent abonent)
         {
             AddAbonent(abonent.Name,abonent.PhoneNumber);
 
         }
 
+
+        /// <summary>
+        /// Удаляем абонента если такой есть.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="phoneNumber"></param>
         public void DeleteAbonent(string name, int phoneNumber)
         {
 
@@ -90,11 +119,23 @@ namespace Lesson5
             }
         }
 
+        /// <summary>
+        /// Удаляем абонента если такой есть.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="phoneNumber"></param>
         public void DeleteAbonent(Abonent abonent)
         {
             DeleteAbonent(abonent.Name,abonent.PhoneNumber);
         }
 
+        /// <summary>
+        /// Меняем одного абонента на другого.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="phoneNumber"></param>
+        /// <param name="newName"></param>
+        /// <param name="newPhoneNumber"></param>
         public void UpdateAbonent(string name, int phoneNumber, string newName, int newPhoneNumber)
         {
             if(CheckNameAndNumber(name, phoneNumber))
@@ -110,19 +151,47 @@ namespace Lesson5
             }
         }
 
+
+        /// <summary>
+        /// Меняем одного абонента на другого.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="phoneNumber"></param>
+        /// <param name="newName"></param>
+        /// <param name="newPhoneNumber"></param>
         public void UpdateAbonent(Abonent abonent, Abonent newAbonent)
         {
             UpdateAbonent(abonent.Name, abonent.PhoneNumber, newAbonent.Name, newAbonent.PhoneNumber);
         }
 
+        /// <summary>
+        /// Меняем одного абонента на другого.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="phoneNumber"></param>
+        /// <param name="newName"></param>
+        /// <param name="newPhoneNumber"></param>
         public void UpdateAbonent(Abonent abonent, string newName, int newPhoneNumber)
         {
             UpdateAbonent(abonent.Name, abonent.PhoneNumber, newName, newPhoneNumber);
         }
+
+
+        /// <summary>
+        /// Меняем одного абонента на другого.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="phoneNumber"></param>
+        /// <param name="newName"></param>
+        /// <param name="newPhoneNumber"></param>
         public void UpdateAbonent(string name, int phoneNumber, Abonent newAbonent)
         {
             UpdateAbonent(name, phoneNumber, newAbonent.Name, newAbonent.PhoneNumber);
         }
+
+        /// <summary>
+        /// Выводим всех абонентов в консоль.
+        /// </summary>
         public void PrintAbonents()
         {
             //Console.WriteLine(numberOfAbonents);
@@ -134,6 +203,11 @@ namespace Lesson5
                 Console.WriteLine(abonent.PhoneNumber);
             }
         }
+
+        /// <summary>
+        /// Создаем объект класса одиночки.
+        /// </summary>
+        /// <returns></returns>
         public static Phonebook GetPhonebook()
         {
             if(phonebook == null)
