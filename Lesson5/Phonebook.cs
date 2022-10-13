@@ -15,7 +15,7 @@ namespace Lesson5
         private Phonebook()
         {
             numberOfAbonents = 0;
-            abonents = new Abonent[20];
+            abonents = new Abonent[30];
 
         }
         private bool CheckName(string name)
@@ -41,6 +41,16 @@ namespace Lesson5
             }
             return false;
         }
+
+        private bool CheckNameAndNumber(string name, int phoneNumber)
+        {
+            for(int i = 0; i < numberOfAbonents; i++)
+            {
+                if (abonents[i].Name == name && abonents[i].PhoneNumber == phoneNumber)
+                    return true;
+            }
+            return false;
+        }
         public void AddAbonent(string name, int phoneNumber) 
         {
             if (!CheckName(name) && !CheckNumber(phoneNumber))
@@ -61,7 +71,7 @@ namespace Lesson5
         public void DeleteAbonent(string name, int phoneNumber)
         {
 
-            if (CheckName(name) && CheckNumber(phoneNumber))
+            if (CheckNameAndNumber(name, phoneNumber))
             {
                 for(int i = 0; i < numberOfAbonents; i++)
                 {
@@ -85,7 +95,34 @@ namespace Lesson5
             DeleteAbonent(abonent.Name,abonent.PhoneNumber);
         }
 
+        public void UpdateAbonent(string name, int phoneNumber, string newName, int newPhoneNumber)
+        {
+            if(CheckNameAndNumber(name, phoneNumber))
+            {
+                for(int i = 0; i < numberOfAbonents; i++)
+                {
+                    if (abonents[i].Name == name && abonents[i].PhoneNumber == phoneNumber)
+                    {
+                        abonents[i] = new Abonent (newName,newPhoneNumber);
+                        return;
+                    }
+                }
+            }
+        }
 
+        public void UpdateAbonent(Abonent abonent, Abonent newAbonent)
+        {
+            UpdateAbonent(abonent.Name, abonent.PhoneNumber, newAbonent.Name, newAbonent.PhoneNumber);
+        }
+
+        public void UpdateAbonent(Abonent abonent, string newName, int newPhoneNumber)
+        {
+            UpdateAbonent(abonent.Name, abonent.PhoneNumber, newName, newPhoneNumber);
+        }
+        public void UpdateAbonent(string name, int phoneNumber, Abonent newAbonent)
+        {
+            UpdateAbonent(name, phoneNumber, newAbonent.Name, newAbonent.PhoneNumber);
+        }
         public void PrintAbonents()
         {
             //Console.WriteLine(numberOfAbonents);
