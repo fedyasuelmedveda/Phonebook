@@ -204,6 +204,29 @@ namespace Lesson5
             }
         }
 
+        public void ReadAbonentsFromFile(StreamReader sr)
+        {
+            string name = sr.ReadLine();
+            string phoneNumber = sr.ReadLine();
+            int number = Convert.ToInt32(phoneNumber);
+            while (name != null)
+            {
+                AddAbonent(name, number);
+                name = sr.ReadLine();
+                phoneNumber = sr.ReadLine();
+                number = Convert.ToInt32(phoneNumber);
+            }
+            
+        }
+        public void WriteAbonentsToFile(StreamWriter sw)
+        {
+            for (int i = 0; i < numberOfAbonents; i++)
+            {
+                sw.WriteLine(abonents[i].Name);
+                sw.WriteLine(abonents[i].PhoneNumber);
+            }
+        }
+
         /// <summary>
         /// Создаем объект класса одиночки.
         /// </summary>

@@ -37,7 +37,6 @@ namespace Lesson5
                         string? phoneNumber = Console.ReadLine();
 
                         int number = Convert.ToInt32(phoneNumber);
-                        Console.WriteLine("Flag");
                         phonebook.AddAbonent(name, number);
                         break;
                     case "1":
