@@ -28,40 +28,44 @@ namespace Lesson5
             {
 
                 string? mode  = Console.ReadLine();
+                string? name;
+                string? phoneNumber;
+                long number;
                 switch (mode)
                 {
                     case "0":
                         Console.WriteLine("Name:");
-                        string? name = Console.ReadLine();
+                        name = Console.ReadLine();
                         Console.WriteLine("Phone number:");
-                        string? phoneNumber = Console.ReadLine();
-
-                        int number = Convert.ToInt32(phoneNumber);
-                        phonebook.AddAbonent(name, number);
+                        phoneNumber = Console.ReadLine();
+                        phonebook.AddAbonent(name, phoneNumber);
                         break;
                     case "1":
-                        phonebook.PrintAbonents();
+                        int n = phonebook.GetNumberOfAbonents();
+                        Abonent[] ab = phonebook.GetAbonents();
+                        for(int i = 0;i < n; i++)
+                        {
+                            Console.WriteLine(ab[i].Name);
+                            Console.WriteLine(ab[i].PhoneNumber);
+                        }
                         break;
                     case "2":
                         Console.WriteLine("Name:");
-                        string? name1 = Console.ReadLine();
+                        name = Console.ReadLine();
                         Console.WriteLine("Phone number:");
-                        string? phoneNumber1 = Console.ReadLine();
-                        int number1 = Convert.ToInt32(phoneNumber1);
+                        phoneNumber = Console.ReadLine();
                         Console.WriteLine("New name:");
                         string? newName = Console.ReadLine();
                         Console.WriteLine("New phone number:");
                         string? newPhoneNumber = Console.ReadLine();
-                        int newNumber = Convert.ToInt32(newPhoneNumber);
-                        phonebook.UpdateAbonent(name1, number1, newName, newNumber);
+                        phonebook.UpdateAbonent(name, phoneNumber, newName, newPhoneNumber);
                         break;
                     case "3":
                         Console.WriteLine("Name:");
-                        string? name2 = Console.ReadLine();
+                        name = Console.ReadLine();
                         Console.WriteLine("Phone number:");
-                        string? phoneNumber2 = Console.ReadLine();
-                        int number2 = Convert.ToInt32(phoneNumber2);
-                        phonebook.DeleteAbonent(name2, number2);
+                        phoneNumber = Console.ReadLine();
+                        phonebook.DeleteAbonent(name, phoneNumber);
                         break;
                     case "4":
                         Console.Clear();
@@ -73,6 +77,7 @@ namespace Lesson5
                         Console.WriteLine("5 - Exit");
                         break;
                     case "5":
+                        phonebook.Exit();
                         return;
                         break;
                     default:

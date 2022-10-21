@@ -8,10 +8,10 @@ namespace Lesson5
 {
     internal class Abonent
     {
-        public int PhoneNumber{ get; }
+        public string PhoneNumber{ get; }
         public string? Name { get; }
 
-        public Abonent(string name, int phoneNumber)
+        public Abonent(string name, string phoneNumber)
         {
             this.PhoneNumber = phoneNumber;
             this.Name = name;

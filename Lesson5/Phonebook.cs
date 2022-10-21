@@ -12,34 +12,28 @@ namespace Lesson5
         private static Phonebook? phonebook = null;
         private int numberOfAbonents = 0;
         private Abonent[] abonents;
+        private StreamReader sr;
+        private StreamWriter sw;
         private Phonebook()
         {
             numberOfAbonents = 0;
             abonents = new Abonent[30];
-
+            sr = new StreamReader("C:/Users/fsokl/source/repos/Lesson5/Lesson5/Phonebook.txt");
+            ReadAbonentsFromFile();
         }
 
         /// <summary>
-        /// Проверка существования абонента с данным именем.
+        /// Проверка существования абонента с данным именем и абонента с данным номером.
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        private bool CheckName(string name)
+        private bool CheckAbonentExists(string name, string number)
         {
             for(int i = 0; i < numberOfAbonents; i++)
             {
                 if (abonents[i].Name == name)
                     return true;
             }
-            return false;
-        }
-        /// <summary>
-        /// Проверка существования абонента с данным номером.
-        /// </summary>
-        /// <param name="number"></param>
-        /// <returns></returns>
-        private bool CheckNumber(int number)
-        {
             for (int i = 0; i < numberOfAbonents; i++)
             {
                 if (abonents[i].PhoneNumber == number)
@@ -54,7 +48,7 @@ namespace Lesson5
         /// <param name="name"></param>
         /// <param name="phoneNumber"></param>
         /// <returns></returns>
-        private bool CheckNameAndNumber(string name, int phoneNumber)
+        private bool CheckNameAndNumber(string name, string phoneNumber)
         {
             for(int i = 0; i < numberOfAbonents; i++)
             {
@@ -69,9 +63,9 @@ namespace Lesson5
         /// </summary>
         /// <param name="name"></param>
         /// <param name="phoneNumber"></param>
-        public void AddAbonent(string name, int phoneNumber) 
+        public void AddAbonent(string name, string phoneNumber) 
         {
-            if (!CheckName(name) && !CheckNumber(phoneNumber))
+            if (!CheckAbonentExists(name,phoneNumber))
             {
                 abonents[numberOfAbonents] = new Abonent(name, phoneNumber);
                 numberOfAbonents++;
@@ -91,13 +85,25 @@ namespace Lesson5
 
         }
 
+        /// <summary>
+        /// Получить абонентов.
+        /// </summary>
+        /// <returns></returns>
+        public Abonent[] GetAbonents()
+        {
+            return abonents;
+        }
 
+        public int GetNumberOfAbonents()
+        {
+            return numberOfAbonents;
+        }
         /// <summary>
         /// Удаляем абонента если такой есть.
         /// </summary>
         /// <param name="name"></param>
         /// <param name="phoneNumber"></param>
-        public void DeleteAbonent(string name, int phoneNumber)
+        public void DeleteAbonent(string name, string phoneNumber)
         {
 
             if (CheckNameAndNumber(name, phoneNumber))
@@ -136,7 +142,7 @@ namespace Lesson5
         /// <param name="phoneNumber"></param>
         /// <param name="newName"></param>
         /// <param name="newPhoneNumber"></param>
-        public void UpdateAbonent(string name, int phoneNumber, string newName, int newPhoneNumber)
+        public void UpdateAbonent(string name, string phoneNumber, string newName, string newPhoneNumber)
         {
             if(CheckNameAndNumber(name, phoneNumber))
             {
@@ -171,7 +177,7 @@ namespace Lesson5
         /// <param name="phoneNumber"></param>
         /// <param name="newName"></param>
         /// <param name="newPhoneNumber"></param>
-        public void UpdateAbonent(Abonent abonent, string newName, int newPhoneNumber)
+        public void UpdateAbonent(Abonent abonent, string newName, string newPhoneNumber)
         {
             UpdateAbonent(abonent.Name, abonent.PhoneNumber, newName, newPhoneNumber);
         }
@@ -184,47 +190,49 @@ namespace Lesson5
         /// <param name="phoneNumber"></param>
         /// <param name="newName"></param>
         /// <param name="newPhoneNumber"></param>
-        public void UpdateAbonent(string name, int phoneNumber, Abonent newAbonent)
+        public void UpdateAbonent(string name, string phoneNumber, Abonent newAbonent)
         {
             UpdateAbonent(name, phoneNumber, newAbonent.Name, newAbonent.PhoneNumber);
         }
 
-        /// <summary>
-        /// Выводим всех абонентов в консоль.
-        /// </summary>
-        public void PrintAbonents()
-        {
-            //Console.WriteLine(numberOfAbonents);
-            for(int i = 0; i < numberOfAbonents; i++)
-            {
-                Abonent abonent = abonents[i];
-                Console.Write(abonent.Name);
-                Console.Write(' ');
-                Console.WriteLine(abonent.PhoneNumber);
-            }
-        }
 
-        public void ReadAbonentsFromFile(StreamReader sr)
+        /// <summary>
+        /// Читаем абонентов из файла.
+        /// </summary>
+        public void ReadAbonentsFromFile()
         {
             string name = sr.ReadLine();
             string phoneNumber = sr.ReadLine();
-            int number = Convert.ToInt32(phoneNumber);
             while (name != null)
             {
-                AddAbonent(name, number);
+                AddAbonent(name, phoneNumber);
                 name = sr.ReadLine();
                 phoneNumber = sr.ReadLine();
-                number = Convert.ToInt32(phoneNumber);
             }
             
         }
-        public void WriteAbonentsToFile(StreamWriter sw)
+
+        /// <summary>
+        /// Пишем абонентов в файл.
+        /// </summary>
+        private void WriteAbonentsToFile()
         {
             for (int i = 0; i < numberOfAbonents; i++)
             {
                 sw.WriteLine(abonents[i].Name);
                 sw.WriteLine(abonents[i].PhoneNumber);
             }
+        }
+
+        /// <summary>
+        /// Что нужно сделать при выходе.
+        /// </summary>
+        public void Exit()
+        {
+            sr.Close();
+            sw = new StreamWriter("C:/Users/fsokl/source/repos/Lesson5/Lesson5/Phonebook.txt");
+            WriteAbonentsToFile();
+            sw.Close();
         }
 
         /// <summary>
