@@ -14,8 +14,44 @@ namespace Lesson5
         public ConsoleInterface(Phonebook phonebook)
         {
             this.phonebook = phonebook;
+            phonebook.AbonentMessage += ConsoleMessage;
+            phonebook.DeleteMessage += ConsoleRedMessage;
+            phonebook.AddMessage += ConsoleGreenMessage;
         }
 
+        private void ConsoleMessage(string message)
+        {
+
+            Console.WriteLine(message);
+        }
+        private void ConsoleRedMessage(string message)
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine(message);
+            Console.ForegroundColor= ConsoleColor.Gray;
+        }
+        private void ConsoleGreenMessage(string message)
+        {
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine(message);
+            Console.ForegroundColor= ConsoleColor.Gray;
+        }
+        public void ReadAbonents()
+        {
+            using (var rstream = new StreamReader("C:/Users/fsokl/source/repos/Lesson5/Lesson5/Phonebook.txt"))
+            {
+                phonebook.ReadAbonentsFromFile(rstream);
+                rstream.Close();
+            }
+        }
+        public void WriteAbonents()
+        {
+            using (var wstream = new StreamWriter("C:/Users/fsokl/source/repos/Lesson5/Lesson5/Phonebook.txt"))
+            {
+                phonebook.WriteAbonentsToFile(wstream);
+                wstream.Close();
+            }
+        }
         public void InteractionWithUser()
         {
             Console.WriteLine("0 - Add abonent");
@@ -30,7 +66,7 @@ namespace Lesson5
                 string? mode  = Console.ReadLine();
                 string? name;
                 string? phoneNumber;
-                long number;
+                //long number;
                 switch (mode)
                 {
                     case "0":
@@ -77,7 +113,6 @@ namespace Lesson5
                         Console.WriteLine("5 - Exit");
                         break;
                     case "5":
-                        phonebook.Exit();
                         return;
                         break;
                     default:

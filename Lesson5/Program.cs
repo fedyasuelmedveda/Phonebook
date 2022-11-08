@@ -7,7 +7,9 @@
             Phonebook p = Phonebook.GetPhonebook();
             
             ConsoleInterface consoleInterface = new ConsoleInterface(p);
+            consoleInterface.ReadAbonents();
             consoleInterface.InteractionWithUser();
+            consoleInterface.WriteAbonents();
         }
     }
 }

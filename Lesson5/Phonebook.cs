@@ -4,6 +4,7 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace Lesson5
 {
@@ -12,14 +13,15 @@ namespace Lesson5
         private static Phonebook? phonebook = null;
         private int numberOfAbonents = 0;
         private Abonent[] abonents;
-        private StreamReader sr;
         private StreamWriter sw;
+        public delegate void Message(string message);
+        public event Message? AddMessage;
+        public event Message? DeleteMessage;
+        public event Message? AbonentMessage;
         private Phonebook()
         {
             numberOfAbonents = 0;
             abonents = new Abonent[30];
-            sr = new StreamReader("C:/Users/fsokl/source/repos/Lesson5/Lesson5/Phonebook.txt");
-            ReadAbonentsFromFile();
         }
 
         /// <summary>
@@ -69,8 +71,9 @@ namespace Lesson5
             {
                 abonents[numberOfAbonents] = new Abonent(name, phoneNumber);
                 numberOfAbonents++;
+                AddMessage?.Invoke($"Добавлен абонент {name}, {phoneNumber}!");
             }
-
+            
 
         }
 
@@ -118,10 +121,13 @@ namespace Lesson5
                         }
 
                         numberOfAbonents--;
-                        
+                        DeleteMessage?.Invoke($"Удален абонент {name}, {phoneNumber}!");
+
                         return;
+
                     }
                 }
+                
             }
         }
 
@@ -151,6 +157,7 @@ namespace Lesson5
                     if (abonents[i].Name == name && abonents[i].PhoneNumber == phoneNumber)
                     {
                         abonents[i] = new Abonent (newName,newPhoneNumber);
+                        AbonentMessage?.Invoke($"Обновлен абонент {name}, {phoneNumber}!");
                         return;
                     }
                 }
@@ -199,13 +206,15 @@ namespace Lesson5
         /// <summary>
         /// Читаем абонентов из файла.
         /// </summary>
-        public void ReadAbonentsFromFile()
+        public void ReadAbonentsFromFile(StreamReader sr)
         {
-            string name = sr.ReadLine();
-            string phoneNumber = sr.ReadLine();
+            string? name = sr.ReadLine();
+            string? phoneNumber = sr.ReadLine();
             while (name != null)
             {
+                AbonentMessage?.Invoke($"Прочитан абонент: {name}, {phoneNumber}!");
                 AddAbonent(name, phoneNumber);
+                
                 name = sr.ReadLine();
                 phoneNumber = sr.ReadLine();
             }
@@ -215,24 +224,15 @@ namespace Lesson5
         /// <summary>
         /// Пишем абонентов в файл.
         /// </summary>
-        private void WriteAbonentsToFile()
+        public void WriteAbonentsToFile(StreamWriter sw)
         {
             for (int i = 0; i < numberOfAbonents; i++)
             {
+                AbonentMessage?.Invoke($"Записан абонент: {abonents[i].Name}, {abonents[i].PhoneNumber}!");
                 sw.WriteLine(abonents[i].Name);
                 sw.WriteLine(abonents[i].PhoneNumber);
-            }
-        }
 
-        /// <summary>
-        /// Что нужно сделать при выходе.
-        /// </summary>
-        public void Exit()
-        {
-            sr.Close();
-            sw = new StreamWriter("C:/Users/fsokl/source/repos/Lesson5/Lesson5/Phonebook.txt");
-            WriteAbonentsToFile();
-            sw.Close();
+            }
         }
 
         /// <summary>
